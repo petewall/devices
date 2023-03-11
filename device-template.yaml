@@ -1,0 +1,33 @@
+#@ load("@ytt:data", "data")
+---
+esphome:
+  name: #@ "base_" + data.values.version.strip().replace(".", "-")
+  comment: ESPHome Base Config
+
+esp8266:
+  board: d1_mini
+
+logger:
+  level: DEBUG
+
+wifi:
+  ssid: #@ data.values.wifi.ssid.strip()
+  password: #@ data.values.wifi.password.strip()
+
+web_server:
+  port: 80
+
+prometheus:
+  include_internal: true
+  relabel:
+    firmware:
+      id: firmware
+      name: #@ "base_" + data.values.version.strip().replace(".", "-")
+
+sensor:
+  - platform: template
+    id: firmware
+    lambda: return 1;
+    update_interval: 60s
+  - platform: uptime
+    name: Uptime Sensor
