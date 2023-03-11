@@ -1,0 +1,30 @@
+---
+platform: linux
+
+params:
+  WIFI_SSID:
+  WIFI_PASSWORD:
+
+inputs:
+  - name: source
+  - name: version
+
+outputs:
+  - name: output
+
+run:
+  path: bash
+  dir: source
+  args:
+    - -exc
+    - |
+      curl -L https://carvel.dev/install.sh | K14SIO_INSTALL_BIN_DIR=local-bin bash
+
+      ytt \
+        --file secrets-template.yaml \
+        --data-value wifi.ssid="${WIFI_SSID}" \
+        --data-value wifi.password="${WIFI_PASSWORD}" \
+        > secrets.yaml
+
+      make build
+      cp firmware.bin ../output
