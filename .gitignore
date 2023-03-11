@@ -1,3 +1,4 @@
 .esphome
 device.yaml
 firmware.bin
+secrets.yaml
