@@ -1,0 +1,6 @@
+#@ load("@ytt:data", "data")
+---
+device:
+  name: #@ "base-" + data.values.version.strip().replace(".", "-")
+  description: ESPHome Base Config
+  loglevel: DEBUG

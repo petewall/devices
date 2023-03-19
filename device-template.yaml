@@ -1,14 +1,14 @@
 #@ load("@ytt:data", "data")
 ---
 esphome:
-  name: #@ "base_" + data.values.version.strip().replace(".", "-")
-  comment: ESPHome Base Config
+  name: #@ data.values.device.name
+  comment: #@ data.values.device.description
 
 esp8266:
   board: d1_mini
 
 logger:
-  level: DEBUG
+  level: #@ data.values.device.loglevel
 
 wifi:
   ssid: #@ data.values.wifi.ssid.strip()
@@ -22,7 +22,7 @@ prometheus:
   relabel:
     firmware:
       id: firmware
-      name: #@ "base_" + data.values.version.strip().replace(".", "-")
+      name: #@ data.values.device.name
 
 sensor:
   - platform: template

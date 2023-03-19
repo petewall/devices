@@ -12,16 +12,16 @@ secrets.yaml: secrets-template.yaml
 		--data-value-file wifi.password=<(op read "op://Private/Home WiFi/wireless network password") \
 		> secrets.yaml
 
-device.yaml: device-template.yaml version secrets.yaml
+device.yaml: device-data.yaml device-template.yaml version secrets.yaml
 	ytt \
 		--file device-template.yaml \
+		--data-values-file <(ytt -f device-data.yaml --data-value-file version=version) \
 		--data-values-file secrets.yaml \
-		--data-value-file version=version \
 		> device.yaml
 
 firmware.bin: device.yaml
 	esphome compile device.yaml
-	cp .esphome/build/base_$(shell sed -e "s/\./-/g" version)/.pioenvs/base_$(shell sed -e "s/\./-/g" version)/firmware.bin firmware.bin
+	cp .esphome/build/base-$(shell sed -e "s/\./-/g" version)/.pioenvs/base-$(shell sed -e "s/\./-/g" version)/firmware.bin firmware.bin
 
 build: firmware.bin
 
