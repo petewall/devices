@@ -1,0 +1,9 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.all
+---
+#@overlay/match missing_ok=True
+#@overlay/replace or_add=True
+i2c:
+  sda: GPIO4
+  scl: GPIO5

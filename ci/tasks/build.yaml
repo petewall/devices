@@ -4,6 +4,7 @@ platform: linux
 params:
   WIFI_SSID:
   WIFI_PASSWORD:
+  DEVICE_DIR:
 
 inputs:
   - name: source
@@ -18,13 +19,17 @@ run:
   args:
     - -exc
     - |
+      apt update
+      apt install -y make
       curl -L https://carvel.dev/install.sh | bash
 
+      cd "${DEVICE_DIR}"
+
       ytt \
-        --file secrets-template.yaml \
+        --file ../secrets-template.yaml \
         --data-value wifi.ssid="${WIFI_SSID}" \
         --data-value wifi.password="${WIFI_PASSWORD}" \
         > secrets.yaml
 
       make build
-      cp firmware.bin ../output
+      cp firmware.bin ../../output

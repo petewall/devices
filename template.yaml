@@ -18,10 +18,8 @@ web_server:
   port: 80
 
 prometheus:
-  include_internal: true
   relabel:
     firmware:
-      id: firmware
       name: #@ data.values.device.name
 
 sensor:

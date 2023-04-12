@@ -1,0 +1,58 @@
+resources:
+- name: devices
+  type: git
+  icon: github
+  source:
+    uri: git@github.com:petewall/devices.git
+    branch: main
+    private_key: ((github.private_key))
+
+- name: device-garage
+  type: git
+  icon: github
+  source:
+    uri: git@github.com:petewall/devices.git
+    branch: main
+    private_key: ((github.private_key))
+    paths:
+      - template.yaml
+      - device-garage/...
+
+- name: device-garage-version
+  type: semver
+  icon: github
+  source:
+    driver: git
+    uri: git@github.com:petewall/devices.git
+    branch: main
+    file: device-garage/version
+    private_key: ((github.private_key))
+    commit_message: '[ci skip] bump device-garage version to %version%'
+
+- name: esphome
+  type: registry-image
+  icon: docker
+  source:
+    repository: esphome/esphome
+    username: ((dockerhub.username))
+    password: ((dockerhub.password))
+
+jobs:
+- name: build-device-garage
+  plan:
+  - in_parallel:
+    - get: ci
+      resource: devices
+    - get: source
+      resource: device-garage
+      trigger: true
+    - get: version
+      resource: device-garage-version
+    - get: esphome
+  - task: build
+    image: esphome
+    file: ci/ci/tasks/build.yaml
+    params:
+      WIFI_SSID: ((wifi.ssid))
+      WIFI_PASSWORD: ((wifi.password))
+      DEVICE_DIR: device-garage

@@ -1,0 +1,17 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.all
+---
+#@overlay/match missing_ok=True
+#@overlay/merge
+switch:
+  - platform: gpio
+    pin:
+      number: GPIO2
+      inverted: true
+    id: garage_door_button
+    name: Garage Door Button
+    icon: "mdi:gate"
+    on_turn_on:
+    - delay: 500ms
+    - switch.turn_off: garage_door_button

@@ -1,0 +1,11 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.all
+---
+sensor:
+  - platform: sht3xd
+    temperature:
+      name: Temperature
+    humidity:
+      name: Humidity
+    address: "0x45"
