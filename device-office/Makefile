@@ -12,10 +12,9 @@ secrets.yaml: ../secrets-template.yaml
 		--data-value-file wifi.password=<(op read "op://Private/Home WiFi/wireless network password") \
 		> secrets.yaml
 
-device.yaml: data.yaml secrets.yaml ../template.yaml button-overlay.yaml ../lib/i2c-overlay.yaml ../lib/sht30-overlay.yaml version
+device.yaml: data.yaml secrets.yaml ../template.yaml ../lib/i2c-overlay.yaml ../lib/sht30-overlay.yaml version
 	ytt \
 		--file ../template.yaml \
-		--file button-overlay.yaml \
 		--file ../lib/i2c-overlay.yaml \
 		--file ../lib/sht30-overlay.yaml \
 		--data-value-file version=version \
@@ -25,7 +24,7 @@ device.yaml: data.yaml secrets.yaml ../template.yaml button-overlay.yaml ../lib/
 
 firmware.bin: device.yaml
 	esphome compile device.yaml
-	cp .esphome/build/garage/.pioenvs/garage/firmware.bin firmware.bin
+	cp .esphome/build/office/.pioenvs/office/firmware.bin firmware.bin
 
 build: firmware.bin
 

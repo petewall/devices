@@ -4,6 +4,9 @@ esphome:
   name: #@ data.values.device.name
   comment: #@ data.values.device.description
 
+substitutions:
+  version: #@ data.values.version.strip()
+
 esp8266:
   board: d1_mini
 
@@ -20,7 +23,7 @@ web_server:
 prometheus:
   relabel:
     firmware:
-      name: #@ data.values.device.name
+      name: #@ data.values.device.name + "_" + data.values.version.strip().replace(".", "_")
 
 sensor:
   - platform: template

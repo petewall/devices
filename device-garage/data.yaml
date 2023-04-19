@@ -1,5 +1,5 @@
 #@ load("@ytt:data", "data")
 ---
 device:
-  name: #@ "garage_" + data.values.version.strip().replace(".", "_")
-  description: Garage Device
+  name: garage
+  description: #@ "Garage Device " + data.values.version.strip()

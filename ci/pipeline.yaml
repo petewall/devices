@@ -34,6 +34,7 @@ resources:
   icon: docker
   source:
     repository: esphome/esphome
+    tag: stable
     username: ((dockerhub.username))
     password: ((dockerhub.password))
 
