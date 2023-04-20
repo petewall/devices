@@ -1,0 +1,5 @@
+#@ load("@ytt:data", "data")
+---
+device:
+  name: utilityroom
+  description: #@ "Utility Room Device " + data.values.version.strip()

@@ -1,0 +1,4 @@
+.esphome/
+device.yaml
+secrets.yaml
+firmware.bin
