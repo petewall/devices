@@ -21,6 +21,7 @@ web_server:
   port: 80
 
 prometheus:
+  include_internal: true
   relabel:
     firmware:
       name: #@ data.values.device.name + "_" + data.values.version.strip().replace(".", "_")
